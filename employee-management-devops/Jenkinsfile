@@ -2,49 +2,35 @@ pipeline {
     agent any
 
     stages {
-<<<<<<< HEAD
         stage('Clone') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/ganesh939259-dotcom/employee-management.git'
             }
         }
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Building the application...'
+                sh 'pip install -r requirements.txt'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-=======
-
-        stage('Clone Code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/ganesh939259-dotcom/employee-management.git'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t employee-app .'
+                sh 'docker build -t employee-management .'
             }
         }
-
         stage('Run Container') {
             steps {
-                sh '''
-                    docker stop emp-container || true
-                    docker rm emp-container || true
-                    docker run -d -p 5000:5000 --name emp-container employee-app
-                '''
->>>>>>> fcc96a94db9870c75e9febe648ebec7caba6e526
+                sh 'docker-compose up -d'
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
