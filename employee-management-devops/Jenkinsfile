@@ -2,26 +2,25 @@ pipeline {
     agent any
 
     stages {
-
-        stage('Clone Code') {
+        stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/ganesh939259-dotcom/employee-management.git'
+                git branch: 'main',
+                    url: 'https://github.com/ganesh939259-dotcom/employee-management.git'
             }
         }
-
-        stage('Build Docker Image') {
+        stage('Build') {
             steps {
-                sh 'docker build -t employee-app .'
+                echo 'Building the application...'
             }
         }
-
-        stage('Run Container') {
+        stage('Test') {
             steps {
-                sh '''
-                    docker stop emp-container || true
-                    docker rm emp-container || true
-                    docker run -d -p 5000:5000 --name emp-container employee-app
-                '''
+                echo 'Running tests...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
             }
         }
     }
