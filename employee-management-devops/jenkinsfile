@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/ganesh939259-dotcom/employee-management.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t employee-app .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh 'docker stop emp-container || true'
+                sh 'docker rm emp-container || true'
+                sh 'docker run -d -p 5000:5000 --name emp-container employee-app'
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Management</title>
+</head>
+<body>
+    <h2>Employee Management System</h2>
+
+    <form method="POST" action="/add">
+        <input type="text" name="name" placeholder="Employee Name" required>
+        <input type="text" name="role" placeholder="Role" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <h3>Employee List</h3>
+    <ul>
+        {% for emp in employees %}
+            <li>
+                {{ emp.name }} - {{ emp.role }}
+                <a href="/delete/{{ loop.index0 }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
