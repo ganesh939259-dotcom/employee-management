@@ -10,17 +10,17 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'pip3 install -r employee-management-devops/requirements.txt'
             }
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t employee-management .'
+                sh 'docker build -t employee-management employee-management-devops/'
             }
         }
         stage('Run Container') {
             steps {
-                sh 'docker-compose up -d'
+                sh 'docker-compose -f employee-management-devops/docker-compose.yml up -d'
             }
         }
     }
